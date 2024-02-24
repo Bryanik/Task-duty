@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './navbar.css'
 
 const Navbar = () => {
+  const user = false
   return (
     <div className='navComponent'>
       <div className='navContainer'>
@@ -10,6 +11,7 @@ const Navbar = () => {
           <a href="/"><img src="/src/assets/logo.png" alt="Logo" /></a>
           <a href="/"><h2>TaskDuty</h2></a>
         </div>
+        {user ? 
         <div className='menu'>
           <nav>
             <ul>
@@ -19,6 +21,10 @@ const Navbar = () => {
             </ul>
           </nav>
         </div>
+        : <>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Signup</Link>
+        </> }
       </div>
     </div>
     
