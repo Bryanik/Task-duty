@@ -1,14 +1,22 @@
 import express, { json } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
+import cors from "cors";
+import userRoutes from "./routes/user.js"
+import taskRoutes from "./routes/task.js"
 
 const app = express();
+app.use(cors())
 app.use(morgan("dev"));
 app.use(json({limit: "25mb"}));
 
 app.get("/", (req, res) => {
   res.send("Hello server");
 });
+
+//api endpoints
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/task", taskRoutes);
 
 //no routes
 app.use((req, res, next) => {

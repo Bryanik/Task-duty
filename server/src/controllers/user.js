@@ -40,6 +40,34 @@ export const registerUser = async(req, res, next) => {
 };
 
 export const loginUser = async (req, res, next) => {
-    const {username, password} = req.body
-    
-}
+    const { username, password } = req.body;
+    try {
+        if(!username || !password) {
+            return next(
+                createHttpError(400, "Form fields missing, please fill the form")
+            );
+        }
+        const user = await User.findOne({username: username}).select("+password")
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return next(createHttpError(401, "Username or password is incorrect"));
+        }
+        const access_token = generateToken(user._id);
+        res.status(200).json({ access_token, msg: "User login success" });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const authenticateUser = async (req, res, next) => {
+    const { id: userId } = req.user;
+    try {
+        const user = await User.findById(userId)
+        if (!user) {
+            return next(createHttpError(404, "User not found"));
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+};

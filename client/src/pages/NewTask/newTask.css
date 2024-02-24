@@ -33,14 +33,14 @@ h1 span a {
     color: #974FD0;
 }
 
-.formSection {
+#form {
     position: relative;
 }
 
 .label {
     color: #9C9C9C;
     position: absolute;
-    left: 3%;
+    left: 2%;
 }
 
 .input {

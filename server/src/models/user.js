@@ -23,4 +23,4 @@ const userSchema = new Schema(
     }
     );
 
-    export default modal("User", userSchema);
+    export default model("User", userSchema);

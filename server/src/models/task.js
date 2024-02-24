@@ -17,8 +17,8 @@ const taskSchema = new Schema({
     max: 300,
   },
   tags: {
-    type: [String],
-    default: ["Urgent", "Important"],
+    type: String,
+    default: "Urgent",
     required: true,
   },
 },
