@@ -1,34 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './navbar.css'
+import { Link } from "react-router-dom";
+import "./navbar.css";
 
-const Navbar = () => {
-  const user = false
+const Navbar = ({ loggedInUser }) => {
   return (
-    <div className='navComponent'>
-      <div className='navContainer'>
-        <div className='logo'>
-          <a href="/"><img src="/src/assets/logo.png" alt="Logo" /></a>
-          <a href="/"><h2>TaskDuty</h2></a>
+    <div className="navComponent">
+      <div className="navContainer p-3">
+        <div className="logo">
+          <Link to="/">
+            <img src="/src/assets/logo.png" alt="Logo" />
+          </Link>
+          <Link to="/">
+            <h2>TaskDuty</h2>
+          </Link>
         </div>
-        {user ? 
-        <div className='menu'>
-          <nav>
-            <ul>
-              <li><Link to={"newtask"} className='navlink'>New Task</Link></li>
-              <li><Link to={"mytasks"} className='navlink'>All Tasks</Link></li>
-              <li><img src="/src/assets/displayPic.png" alt="Display Pic" /></li>
-            </ul>
-          </nav>
-        </div>
-        : <>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Signup</Link>
-        </> }
+        {loggedInUser ? (
+          <div className="menu">
+            <nav>
+              <ul>
+                <li>
+                  <Link to={"newtask"} className="navlink">
+                    New Task
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"mytasks"} className="navlink">
+                    All Tasks
+                  </Link>
+                </li>
+                <li className="fs-4">
+                  Hi, {loggedInUser?.username}
+                </li>
+              </ul>
+            </nav>
+          </div>
+        ) : (
+          <div className="d-flex gap-3 align-items-center">
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Signup</Link>
+          </div>
+        )}
       </div>
     </div>
-    
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
