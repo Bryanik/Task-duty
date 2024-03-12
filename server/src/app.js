@@ -1,14 +1,16 @@
+import dotenv from "dotenv";
 import express, { json } from "express";
 import createHttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
 import cors from "cors";
-import userRoutes from "./routes/user.js"
-import taskRoutes from "./routes/task.js"
+import userRoutes from "./routes/user.js";
+import taskRoutes from "./routes/task.js";
 
+dotenv.config();
 const app = express();
-app.use(cors())
+app.use(cors());
 app.use(morgan("dev"));
-app.use(json({limit: "25mb"}));
+app.use(json({ limit: "25mb" }));
 
 app.get("/", (req, res) => {
   res.send("Hello server");

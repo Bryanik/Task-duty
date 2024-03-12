@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { login } from "../../config/api";
+import { register } from "../../config/api";
 import toast from "react-hot-toast";
 
-export default function Login({ loggedInUser }) {
+export default function Signup({ loggedInUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
@@ -24,8 +25,8 @@ export default function Login({ loggedInUser }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await login(username, password);
-      if (res.status === 200) {
+      const res = await register(username, email, password);
+      if (res.status === 201) {
         localStorage.setItem(
           "accesstoken",
           JSON.stringify(res.data.access_token)
@@ -38,7 +39,7 @@ export default function Login({ loggedInUser }) {
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response?.data?.error);
       } else {
-        setError(error.response?.data || error.message || "An error occurred");
+        setError(error.response?.data || error.message);
       }
     } finally {
       setLoading(false);
@@ -64,9 +65,20 @@ export default function Login({ loggedInUser }) {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="johndoe@email.com"
+            size="lg"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="text"
+            type="password"
             placeholder="password"
             size="lg"
             required
@@ -80,13 +92,13 @@ export default function Login({ loggedInUser }) {
           type="submit"
           disabled={loading}
         >
-          {loading ? <Spinner animation="border" /> : "Log in"}
+          {loading ? <Spinner animation="border" /> : "Sign up"}
         </Button>
       </Form>
       <div>
-        <p className="mb-1">Not registered with us?</p>
-        <Link className="text-center text-secondary" to="/signup">
-          <p>Sign up</p>
+        <p className="mb-1">Already registered with us?</p>
+        <Link className="text-center text-secondary" to="/login">
+          <p>Log in</p>
         </Link>
       </div>
     </div>

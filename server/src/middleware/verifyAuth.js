@@ -3,7 +3,6 @@ import createHttpError from "http-errors";
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
-  console.log(token);
   if (!token) {
     return next(createHttpError(401, "You are unauthorized"));
   }
